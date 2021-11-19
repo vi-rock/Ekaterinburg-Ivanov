@@ -1,27 +1,29 @@
 import sys
-import random
+from random import randint as r
 
-from PyQt5 import uic
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QWidget, QApplication
+from des import Ui_Form
 
 
-class Main(QWidget):
+class Main(QWidget, Ui_Form):
     def __init__(self):
         super(Main, self).__init__()
         self.circle_size = (10, 10)
-        uic.loadUi('des.ui', self)
-        self.pushButton.clicked.connect(self.random_size)
-        self.setWindowTitle('Yellow')
+        self.circle_color = (255, 255, 0)
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.init_circle)
+        self.setWindowTitle('Not Yellow')
 
-    def random_size(self):
-        n = random.randint(10, 100)
+    def init_circle(self):
+        n = r(10, 100)
         self.circle_size = (n, n)
+        self.circle_color = (r(0, 255), r(0, 255), r(0, 255))
         self.update()
 
     def paintEvent(self, event):
         p = QPainter(self)
-        p.setBrush(QColor(255, 255, 0))
+        p.setBrush(QColor(*self.circle_color))
         p.begin(self)
         p.drawEllipse(130, 50, *self.circle_size)
         p.end()
